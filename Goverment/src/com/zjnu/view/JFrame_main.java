@@ -54,7 +54,7 @@ public class JFrame_main extends JFrame {
 	 */
 	public JFrame_main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(800, 1250, 800, 650);
+		setSize(1250, 900);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);

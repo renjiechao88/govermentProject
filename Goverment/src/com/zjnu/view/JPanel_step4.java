@@ -5,6 +5,7 @@ import javax.swing.JTextField;
 
 import org.jb2011.lnf.beautyeye.ch3_button.BEButtonUI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -26,9 +27,22 @@ public class JPanel_step4 extends JPanel {
 	public JPanel_step4() {
 		/*分为2行2列，下方用于放置按钮*/
 		gridBagLayout.columnWeights = new double[] {1,1};
-		gridBagLayout.rowWeights = new double[] {3,1};
+		gridBagLayout.rowWeights = new double[] {1,3,1};
 		this.setLayout(gridBagLayout);
 		
+		
+		/*标题显示*/
+		JPanel title_panel = new JPanel();
+		title_panel.setLayout(new BorderLayout());
+		c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth  = 2;
+		c.fill = GridBagConstraints.BOTH;
+		JLabel label = new JLabel("导出数据", JLabel.CENTER);
+		label.setFont(new Font("微软雅黑", 1, 16));
+		title_panel.add(label);
+		this.add(title_panel,c);
 		
 		/*本地数据库信息填写*/
 		JPanel local_panel = new JPanel();
@@ -36,7 +50,7 @@ public class JPanel_step4 extends JPanel {
 		local_panel.setBorder(BorderFactory.createLineBorder(Color.green));
 		c = new GridBagConstraints();
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 1;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(local_panel,c);
 		
@@ -46,7 +60,7 @@ public class JPanel_step4 extends JPanel {
 		inter_panel.setBorder(BorderFactory.createLineBorder(Color.green));
 		c = new GridBagConstraints();
 		c.gridx = 1;
-		c.gridy = 0;
+		c.gridy = 1;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(inter_panel,c);
 		
@@ -56,7 +70,7 @@ public class JPanel_step4 extends JPanel {
 		button_panel.setBorder(BorderFactory.createLineBorder(Color.green));
 		c = new GridBagConstraints();
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.gridwidth =2;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(button_panel,c);
@@ -129,7 +143,7 @@ public class JPanel_step4 extends JPanel {
 		GridBagConstraints c;
 
 		gridBagLayout.columnWeights = new double[] { 0.2, 0.5, 0.5, 0.2 };
-		gridBagLayout.rowWeights = new double[] { 2, 1, 1, 1, 1, 1, 3 };
+		gridBagLayout.rowWeights = new double[] { 1, 1, 1, 1, 1, 1, 1, 1 };
 		panel.setLayout(gridBagLayout);
 
 		// 填充第一行
@@ -146,11 +160,9 @@ public class JPanel_step4 extends JPanel {
 		c.gridwidth = 2;
 		c.insets = new Insets(10, 0, 0, 0);
 		c.fill = GridBagConstraints.BOTH;
-		JLabel pass1 = new JLabel(name,JLabel.CENTER);
-		pass1.setFont(new Font("微软雅黑",1,16));
+		JLabel pass1 = new JLabel(name, JLabel.CENTER);
+		pass1.setFont(new Font("微软雅黑", 1, 16));
 		panel.add(pass1, c);
-
-
 
 		c = new GridBagConstraints();
 		c.gridx = 3;
@@ -159,21 +171,14 @@ public class JPanel_step4 extends JPanel {
 		JLabel pass3 = new JLabel();
 		panel.add(pass3, c);
 
-		
-
-
-		
-
-
-
 		/* 内容 */
-		//选择数据库类型
+		// 选择数据库类型
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JLabel label1 = new JLabel("选择数据库类型:",JLabel.RIGHT);
+		JLabel label1 = new JLabel("选择数据库类型:", JLabel.RIGHT);
 		panel.add(label1, c);
 
 		c = new GridBagConstraints();
@@ -191,7 +196,7 @@ public class JPanel_step4 extends JPanel {
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JLabel label2 = new JLabel("数据库ip地址:",JLabel.RIGHT);
+		JLabel label2 = new JLabel("数据库ip地址:", JLabel.RIGHT);
 		panel.add(label2, c);
 
 		c = new GridBagConstraints();
@@ -203,12 +208,12 @@ public class JPanel_step4 extends JPanel {
 
 		panel.add(ipAddress, c);
 
-		//输入数据库名称
+		// 输入数据库名称
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 3;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JLabel label3 = new JLabel("数据库名称:",JLabel.RIGHT);
+		JLabel label3 = new JLabel("数据库名称:", JLabel.RIGHT);
 		c.insets = new Insets(30, 30, 20, 20);
 		panel.add(label3, c);
 
@@ -220,6 +225,42 @@ public class JPanel_step4 extends JPanel {
 		JTextField dataBaseName = new JTextField();
 
 		panel.add(dataBaseName, c);
+
+		// 账号
+		c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 4;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		JLabel label4 = new JLabel("账号:", JLabel.RIGHT);
+		c.insets = new Insets(30, 30, 20, 20);
+		panel.add(label4, c);
+
+		c = new GridBagConstraints();
+		c.gridx = 2;
+		c.gridy = 4;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(30, 30, 20, 20);
+		JTextField userName = new JTextField();
+
+		panel.add(userName, c);
+
+		// 密码
+		c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		JLabel label5 = new JLabel("密码:", JLabel.RIGHT);
+		c.insets = new Insets(30, 30, 20, 20);
+		panel.add(label5, c);
+
+		c = new GridBagConstraints();
+		c.gridx = 2;
+		c.gridy = 5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(30, 30, 20, 20);
+		JTextField passWord = new JTextField();
+
+		panel.add(passWord, c);
 		
 	}
 

@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 
 public class JPanel_step2 extends JPanel {
 
-	
 	GridBagLayout gridBagLayout = new GridBagLayout();
 	GridBagConstraints c;
 
@@ -27,7 +26,7 @@ public class JPanel_step2 extends JPanel {
 		setSize(1000, 1000);
 
 		gridBagLayout.columnWeights = new double[] { 0.7, 0.5, 0.5, 1 };
-		gridBagLayout.rowWeights = new double[] { 2, 1, 1, 1, 1, 1, 3 };
+		gridBagLayout.rowWeights = new double[] { 1, 1, 1, 1, 1, 1, 1, 1 };
 		this.setLayout(gridBagLayout);
 
 		// 填充第一行
@@ -44,11 +43,9 @@ public class JPanel_step2 extends JPanel {
 		c.gridwidth = 2;
 		c.insets = new Insets(10, 0, 0, 0);
 		c.fill = GridBagConstraints.BOTH;
-		JLabel pass1 = new JLabel("构建对应关系",JLabel.CENTER);
-		pass1.setFont(new Font("微软雅黑",1,16));
+		JLabel pass1 = new JLabel("构建对应关系", JLabel.CENTER);
+		pass1.setFont(new Font("微软雅黑", 1, 16));
 		this.add(pass1, c);
-
-
 
 		c = new GridBagConstraints();
 		c.gridx = 3;
@@ -57,21 +54,14 @@ public class JPanel_step2 extends JPanel {
 		JLabel pass3 = new JLabel();
 		this.add(pass3, c);
 
-		
-
-
-		
-
-
-
 		/* 内容 */
-		//选择数据库类型
+		// 选择数据库类型
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JLabel label1 = new JLabel("选择本地数据库类型:",JLabel.RIGHT);
+		JLabel label1 = new JLabel("选择本地数据库类型:", JLabel.RIGHT);
 		this.add(label1, c);
 
 		c = new GridBagConstraints();
@@ -89,7 +79,7 @@ public class JPanel_step2 extends JPanel {
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JLabel label2 = new JLabel("数据库ip地址:",JLabel.RIGHT);
+		JLabel label2 = new JLabel("数据库ip地址:", JLabel.RIGHT);
 		this.add(label2, c);
 
 		c = new GridBagConstraints();
@@ -101,12 +91,12 @@ public class JPanel_step2 extends JPanel {
 
 		this.add(ipAddress, c);
 
-		//输入数据库名称
+		// 输入数据库名称
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 3;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JLabel label3 = new JLabel("数据库名称:",JLabel.RIGHT);
+		JLabel label3 = new JLabel("数据库名称:", JLabel.RIGHT);
 		c.insets = new Insets(30, 30, 20, 20);
 		this.add(label3, c);
 
@@ -119,23 +109,57 @@ public class JPanel_step2 extends JPanel {
 
 		this.add(dataBaseName, c);
 		
-		
-
-		//选择EXCEL文件
+		// 账号
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 4;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(50,60,50,0);
+		JLabel label4 = new JLabel("账号:", JLabel.RIGHT);
+		c.insets = new Insets(30, 30, 20, 20);
+		this.add(label4, c);
+
+		c = new GridBagConstraints();
+		c.gridx = 2;
+		c.gridy = 4;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(30, 30, 20, 20);
+		JTextField userName = new JTextField();
+
+		this.add(userName, c);
+
+		// 密码
+		c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		JLabel label5 = new JLabel("密码:", JLabel.RIGHT);
+		c.insets = new Insets(30, 30, 20, 20);
+		this.add(label5, c);
+
+		c = new GridBagConstraints();
+		c.gridx = 2;
+		c.gridy = 5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(30, 30, 20, 20);
+		JTextField passWord = new JTextField();
+
+		this.add(passWord, c);
+
+		// 选择EXCEL文件
+		c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 6;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(50, 60, 50, 0);
 		JButton button = new JButton("选择文件");
 		button.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.green));
 		this.add(button, c);
 
 		c = new GridBagConstraints();
 		c.gridx = 2;
-		c.gridy = 4;
+		c.gridy = 6;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(40,40,50,50);
+		c.insets = new Insets(50, 40, 50, 50);
 		JTextField fileName = new JTextField("文件名称");
 		fileName.setEditable(false);
 		this.add(fileName, c);
@@ -143,10 +167,10 @@ public class JPanel_step2 extends JPanel {
 		/* 导出按钮 */
 		c = new GridBagConstraints();
 		c.gridx = 1;
-		c.gridy = 5;
+		c.gridy = 7;
 		c.gridwidth = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(40,40,50,50);
+		c.insets = new Insets(40, 40, 50, 50);
 		JButton button2 = new JButton("导出结构");
 		button2.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.lightBlue));
 		this.add(button2, c);
