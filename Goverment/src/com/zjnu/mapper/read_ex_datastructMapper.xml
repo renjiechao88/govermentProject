@@ -4,13 +4,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- namespace:该mapper.xml映射文件的 唯一标识 -->
-<mapper namespace="com.zjnu.mapper.read_ex_datastrcutMapper">
-	<!--  后续通过  namespace.id-->
-	<!--parameterType:输入参数的类型
-	resultType：查询返回结果值的类型  ，返回类型  -->
+<mapper namespace="com.zjnu.mapper.read_ex_datastructMapper">
 	
-	<select id="queryStudentByStuno" 	parameterType="int"  	resultMap="studentMapping" >
-		select * from student where stuno = #{stuno}
+	
+	<select id="querytablenameBymysql" 	 resultType="String" >
+		show tables
 	</select>
 	
 	

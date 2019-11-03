@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	
-	<properties  resource="db.properties"/>
+	<properties  resource="ex_db.properties"/>
 	
 	<!-- 通过environments的default值 和  environment的 id 来指定 MyBatis运行时的数据库环境-->
 	<environments default="development">
@@ -31,6 +31,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	
 	<mappers>
 		<!-- 加载映射文件 -->
-		<mapper resource="org/lanqiao/mapper/studentMapper.xml"/>
+		<mapper resource="com/zjnu/mapper/read_ex_datastructMapper.xml"/>
 	</mappers>
 </configuration>
