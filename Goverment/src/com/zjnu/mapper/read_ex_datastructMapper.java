@@ -2,11 +2,13 @@ package com.zjnu.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.zjnu.entity.Column;
 
 public interface read_ex_datastructMapper {
 
 	List<String> querytablenameBymysql();
-	List<Column> queryColumn(String tablename);
-	
+	List<Column> queryColumn(@Param("tablename") String tablename);
+
 }

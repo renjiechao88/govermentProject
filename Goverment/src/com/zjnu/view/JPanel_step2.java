@@ -2,6 +2,7 @@ package com.zjnu.view;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.jb2011.lnf.beautyeye.ch3_button.BEButtonUI;
 
@@ -14,19 +15,22 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
 public class JPanel_step2 extends JPanel {
 
 	GridBagLayout gridBagLayout = new GridBagLayout();
 	GridBagConstraints c;
-	
+	String filePath;
 
 	/**
 	 * Create the panel.
@@ -184,6 +188,21 @@ public class JPanel_step2 extends JPanel {
 		button2.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.lightBlue));
 		this.add(button2, c);
 		
+		/*选择文件按钮添加事件*/
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("表格文件(xls)", "xls");
+				fileChooser.setFileFilter(filter);
+				fileChooser.showDialog(null, "选择或创建excel导出文件");
+				File file = fileChooser.getSelectedFile();
+				filePath = file.getAbsolutePath();
+			}
+		});
+		
 		
 		
 		/*为导出按钮添加事件*/
@@ -197,7 +216,7 @@ public class JPanel_step2 extends JPanel {
 				message.put("databasetype", (String)tyep_comBox.getSelectedItem());
 				message.put("databasename", dataBaseName.getText());
 				message.put("ipaddress", ipAddress.getText());
-				
+				message.put("filepath", filePath);
 				read_ex_struct_service service = new read_ex_struct_service();
 				try {
 					service.read_struct(message);

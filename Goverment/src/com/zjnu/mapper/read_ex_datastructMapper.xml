@@ -8,16 +8,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<resultMap type="com.zjnu.entity.Column" id="Column">
-		<result column="Field" property="field"/>
-		<result column="Type" property="type"/>
-	
+		<result column="Field" property="field" jdbcType="VARCHAR"/>
+		<result column="Type" property="type" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<select id="querytablenameBymysql" 	 resultType="String" >
 		show tables
 	</select>
 	
-	<select id="queryColumn" parameterType="String" resultMap="Column">
-		DESC #{tablename}
+	<select id="queryColumn"  resultMap="Column">
+		SHOW FULL COLUMNS FROM ${tablename}
 	</select>
+	
+	
 </mapper>
