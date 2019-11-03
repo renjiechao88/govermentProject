@@ -7,9 +7,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.zjnu.mapper.read_ex_datastructMapper">
 	
 	
+	<resultMap type="com.zjnu.entity.Column" id="Column">
+		<result column="Field" property="field"/>
+		<result column="Type" property="type"/>
+	
+	</resultMap>
+	
 	<select id="querytablenameBymysql" 	 resultType="String" >
 		show tables
 	</select>
 	
-	
+	<select id="queryColumn" parameterType="String" resultMap="Column">
+		DESC #{tablename}
+	</select>
 </mapper>
