@@ -1,5 +1,6 @@
 package com.zjnu.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import com.zjnu.entity.Column;
 import com.zjnu.mapper.read_ex_datastructMapper;
 import com.zjnu.utils.ExcelUtils;
 import com.zjnu.utils.PropertiesUtils;
+import com.zjnu.utils.ReadExcelTool;
 
 public class read_ex_struct_service {
 
@@ -36,7 +38,7 @@ public class read_ex_struct_service {
 			tableNames = mapper.querytablenameBymysql();
 			//根据表名称查询表的字段属性
 			for(int i=0;i<tableNames.size();i++) {
-				List<Column> column =  mapper.queryColumn(tableNames.get(i));
+				List<Column> column =  mapper.queryColumnBymysql(tableNames.get(i));
 				all_columns.add(column);
 			}
 			session.commit();
@@ -48,15 +50,19 @@ public class read_ex_struct_service {
 		}
 	
 		
-		//3.读取excel文件，开始写入二级菜单
+		//3.读取excel文件，开始写入二 级菜单
 //		System.out.println(tableNames);
 //		System.out.println(all_columns);
 //		System.out.println(message.get("filepath"));
-		 ExcelUtils excelUtil = new ExcelUtils();
-		 ArrayList<Map<String,String>> result = excelUtil.readExcelToObj(message.get("filepath"));
-	     for(Map<String,String> map:result){
-	    	 System.out.println("输出："+map);
-	     }
+		File file = new File(message.get("filepath"));
+		List<String[]> list = ReadExcelTool.readExcel(file);
+		
+		for(int i=0;i<list.size();i++) {
+			for(int j=0;j<list.get(i).length;j++)
+			System.out.println(list.get(i)[j]);
+		}
+		
+		ReadExcelTool.writeEXCEL(list, "C:\\Users\\renjiechao\\Desktop\\test111.xls");
 	}
 
 }

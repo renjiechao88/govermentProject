@@ -2,20 +2,28 @@ package com.zjnu.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelUtils {
 
@@ -32,12 +40,21 @@ public class ExcelUtils {
      * @param path
      */
     public ArrayList<Map<String,String>> readExcelToObj(String path) {
- 
+    	File file = new File(path);
+    	String fileName = file.getName();
+        boolean isE2007 = false;    //判断是否是excel2007格式
+        if(fileName.endsWith("xlsx"))
+            isE2007 = true;
+        
         Workbook wb = null;
         ArrayList<Map<String,String>> result = null;
         try {
-        	InputStream inputStream = new FileInputStream(new File(path));
-        	wb = new HSSFWorkbook(inputStream);
+        	InputStream inputStream = new FileInputStream(file);
+            //根据文件格式(2003或者2007)来初始化
+            if(isE2007)
+                wb = new XSSFWorkbook(inputStream);
+            else
+            	wb = new HSSFWorkbook(inputStream);
            
             result = readExcel(wb, 0, 1, 0);
         }catch (IOException e) {
@@ -71,29 +88,12 @@ public class ExcelUtils {
                     returnStr = rs;
                 }else {
 //                    System.out.print(c.getRichStringCellValue()+"++++ ");
+                	System.out.println(c.getColumnIndex());
                     returnStr = c.getRichStringCellValue().getString();
                 }
-                if(c.getColumnIndex()==0){
-                    map.put("id",returnStr);
-                }else if(c.getColumnIndex()==1){
-                    map.put("base",returnStr);
-                }else if(c.getColumnIndex()==2){
-                    map.put("siteName",returnStr);
-                }else if(c.getColumnIndex()==3){
-                    map.put("articleName",returnStr);
-                }else if(c.getColumnIndex()==4){
-                    map.put("mediaName",returnStr);
-                }else if(c.getColumnIndex()==5){
-                    map.put("mediaUrl",returnStr);
-                }else if(c.getColumnIndex()==6){
-                    map.put("newsSource",returnStr);
-                }else if(c.getColumnIndex()==7){
-                    map.put("isRecord",returnStr);
-                }else if(c.getColumnIndex()==8){
-                    map.put("recordTime",returnStr);
-                }else if(c.getColumnIndex()==9){
-                    map.put("remark",returnStr);
-                }
+                
+                map.put("id"+c.getColumnIndex(), returnStr);
+        
             }
             result.add(map);
         }
@@ -234,10 +234,10 @@ public class ExcelUtils {
             InputStream input = new FileInputStream(fileName);  //建立输入流
             Workbook wb  = null;
             //根据文件格式(2003或者2007)来初始化
-//            if(isE2007)
-//                wb = new XSSFWorkbook(input);
-//            else
-            wb = new HSSFWorkbook(input);
+            if(isE2007)
+                wb = new XSSFWorkbook(input);
+            else
+            	wb = new HSSFWorkbook(input);
             Sheet sheet = wb.getSheetAt(0);     //获得第一个表单
             Iterator<Row> rows = sheet.rowIterator(); //获得第一个表单的迭代器
             while (rows.hasNext()) {
@@ -269,6 +269,67 @@ public class ExcelUtils {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
     
-}
+    
+    
+    /**
+     * 	将读取到的内容写回EXCEL文件
+     */
+    public  static void writeEXCEL( ArrayList<Map<String,String>> message, String path) {
+    	HSSFWorkbook workbook = new HSSFWorkbook();
+    	HSSFSheet sheet = workbook.createSheet("数据库结构对应表");
+    	/*1.将源数据原封不动的写进数据库里*/
+    	for(int i=0;i<message.size();i++) {
+    		HSSFRow row = sheet.createRow(i);
+    		Map<String,String> row_message = message.get(i);
+    		for(int j=0;j<row_message.size();j++) {
+    			HSSFCell cell = row.createCell(j);
+    			String cell_message = row_message.get("id"+j);
+    			cell.setCellValue(cell_message);
+    		}
+    	}
+    	
+    	
+    	
+    	/*2.将第一列中的数据进行单元格合并*/
+    	int rowCount = sheet.getLastRowNum()+1;
+    	System.out.println("rowCount:"+rowCount);
+    	int start = 1;
+    	for(int i=2;i<rowCount;i++) {
+    		//第i行第0列的单元格
+    		HSSFCell pre_cell = sheet.getRow(i-1).getCell(0);
+    		HSSFCell now_cell = sheet.getRow(i).getCell(0);
+    		String pre_string = pre_cell.getStringCellValue();
+    		String now_string = now_cell.getStringCellValue();
+    		//不同就重置start，同时合并上面相同数值单元格，相同就继续往下
+    		if(!pre_string.equals(now_string)) {
+    			CellRangeAddress region = new CellRangeAddress(start,i-1,0,0);
+    			sheet.addMergedRegion(region);
+    			start = i;
+    		}
+    	}
+    	
+    	/*3.输出文件*/
+    	OutputStream outputStream = null ;
+		try {
+			outputStream = new FileOutputStream(new File(path));
+			workbook.write(outputStream);
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "文件输出失败");
+			e.printStackTrace();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "文件输出失败");
+			e.printStackTrace();
+		}finally {
+			if(outputStream!=null) {
+				try {
+					outputStream.close();
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "文件输出流关闭失败");
+					e.printStackTrace();
+				}
+			}
+		}
+    }
 }

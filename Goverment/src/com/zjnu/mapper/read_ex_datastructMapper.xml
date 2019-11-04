@@ -16,9 +16,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		show tables
 	</select>
 	
-	<select id="queryColumn"  resultMap="Column">
+	<select id="queryColumnBymysql"  resultMap="Column">
 		SHOW FULL COLUMNS FROM ${tablename}
 	</select>
+	
+	
 	
 	
 </mapper>

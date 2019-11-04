@@ -195,7 +195,7 @@ public class JPanel_step2 extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("表格文件(xls)", "xls");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("表格文件(xls,xlsx)", "xls","xlsx");
 				fileChooser.setFileFilter(filter);
 				fileChooser.showDialog(null, "选择或创建excel导出文件");
 				File file = fileChooser.getSelectedFile();

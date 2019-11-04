@@ -9,6 +9,6 @@ import com.zjnu.entity.Column;
 public interface read_ex_datastructMapper {
 
 	List<String> querytablenameBymysql();
-	List<Column> queryColumn(@Param("tablename") String tablename);
+	List<Column> queryColumnBymysql(@Param("tablename") String tablename);
 
 }
