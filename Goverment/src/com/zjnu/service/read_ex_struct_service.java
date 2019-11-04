@@ -25,6 +25,8 @@ public class read_ex_struct_service {
 		//最后查询到的信息
 		List<String>  tableNames= new ArrayList<String>();
 		List<List<Column>> all_columns = new ArrayList<List<Column>>();
+		List<String[]> columns = new ArrayList<>();
+		
 		
 		// 1.根据用户信息修改properties文件
 		PropertiesUtils.load_database_message(message, "ex_db.properties");
@@ -34,6 +36,8 @@ public class read_ex_struct_service {
 		SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader, "development");
 		SqlSession session = sessionFacotry.openSession();
 		try {
+			
+			/*2.1 为mysql数据库*/
 			read_ex_datastructMapper mapper = session.getMapper(read_ex_datastructMapper.class);
 			tableNames = mapper.querytablenameBymysql();
 			//根据表名称查询表的字段属性
@@ -43,6 +47,12 @@ public class read_ex_struct_service {
 			}
 			session.commit();
 			
+			
+			/*2.2 为oracle数据库*/
+			
+			
+			/*2.3为sqlserver数据库*/
+			
 		} catch (Exception e) {
 			session.rollback();
 		}finally {
@@ -51,9 +61,6 @@ public class read_ex_struct_service {
 	
 		
 		//3.读取excel文件，开始写入二 级菜单
-//		System.out.println(tableNames);
-//		System.out.println(all_columns);
-//		System.out.println(message.get("filepath"));
 		File file = new File(message.get("filepath"));
 		List<String[]> list = ReadExcelTool.readExcel(file);
 		
@@ -61,8 +68,8 @@ public class read_ex_struct_service {
 			for(int j=0;j<list.get(i).length;j++)
 			System.out.println(list.get(i)[j]);
 		}
-		
-		ReadExcelTool.writeEXCEL(list, "C:\\Users\\renjiechao\\Desktop\\test111.xls");
+		/*需要添加选择导出的excel文件*/
+		ReadExcelTool.writeEXCEL(list, "C:\\Users\\rjc\\Desktop\\test1111.xls",tableNames,all_columns);
 	}
 
 }
