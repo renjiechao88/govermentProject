@@ -21,6 +21,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
+	<select id="querytablenameByoracle" resultType="String">
+		select TABLENAME from tab
+	</select>
+	
+	<select id="queryColumnByoracle" >
+	</select>
+	
 	
 	
 </mapper>
