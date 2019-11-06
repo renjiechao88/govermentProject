@@ -12,5 +12,5 @@ public interface read_ex_datastructMapper {
 	List<Column> queryColumnBymysql(@Param("tablename") String tablename);
 	
 	List<String> querytablenameByoracle();
-	List<Column> queryColumnByoracle(@Param("tablename") String tablename);
+	List<Column> queryColumnByoracle(String tablename);
 }

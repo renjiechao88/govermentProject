@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.zjnu.mapper.read_local_datastructMapper">
+	
+	
+	<resultMap type="com.zjnu.entity.Column" id="Mysql_column">
+		<result column="Field" property="field" jdbcType="VARCHAR"/>
+		<result column="Type" property="type" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<resultMap type="com.zjnu.entity.Column" id="Oracle_column">
+		<result column="COLUMN_NAME" property="field"/>
+		<result column="DATA_TYPE" property="type"/>
+		<result column="DATA_LENGTH" property="length"/>
+	</resultMap>
+	
+	<select id="querytablenameBymysql" 	 resultType="String" >
+		show tables
+	</select>
+	
+	<select id="queryColumnBymysql"  resultMap="Mysql_column">
+		SHOW FULL COLUMNS FROM ${tablename}
+	</select>
+	
+	
+	<select id="querytablenameByoracle" resultType="String" >
+		select * from tab
+	</select>
+	
+	<select id="queryColumnByoracle"  parameterType="String" resultMap="Oracle_column">
+		select * from USER_TAB_COLUMNS WHERE TABLE_NAME= #{tablename}
+	</select>
+	
+	
+	
+</mapper>

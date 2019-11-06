@@ -82,7 +82,7 @@ public class JPanel_step2 extends JPanel {
 		c.gridy = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		String[] types = { "Oracle", "mysql", "sqlserver" };
+		String[] types = { "oracle", "mysql", "sqlserver" };
 		JComboBox<String> tyep_comBox = new JComboBox<String>(types);
 		this.add(tyep_comBox, c);
 
@@ -118,7 +118,7 @@ public class JPanel_step2 extends JPanel {
 		c.gridy = 3;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JTextField dataBaseName = new JTextField("test");
+		JTextField dataBaseName = new JTextField("orcl");
 
 		this.add(dataBaseName, c);
 		
@@ -136,7 +136,7 @@ public class JPanel_step2 extends JPanel {
 		c.gridy = 4;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JTextField userName = new JTextField("root");
+		JTextField userName = new JTextField("scott");
 
 		this.add(userName, c);
 
@@ -154,7 +154,7 @@ public class JPanel_step2 extends JPanel {
 		c.gridy = 5;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JTextField passWord = new JTextField("123");
+		JTextField passWord = new JTextField("tiger");
 
 		this.add(passWord, c);
 

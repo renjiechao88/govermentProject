@@ -1,0 +1,16 @@
+package com.zjnu.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.zjnu.entity.Column;
+
+public interface read_local_datastructMapper {
+
+	List<String> querytablenameBymysql();
+	List<Column> queryColumnBymysql(@Param("tablename") String tablename);
+	
+	List<String> querytablenameByoracle();
+	List<Column> queryColumnByoracle(String tablename);
+}

@@ -8,11 +8,12 @@
 	<classpathentry kind="lib" path="src/mysql-connector-java-5.1.47.jar"/>
 	<classpathentry kind="lib" path="src/mssql-jdbc-6.1.0.jre8.jar"/>
 	<classpathentry kind="lib" path="src/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="src/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="lib" path="src/xmlbeans-2.6.0.jar"/>
 	<classpathentry kind="lib" path="src/druid-1.1.10.jar"/>
 	<classpathentry kind="lib" path="src/commons-collections4-4.1.jar"/>
-	<classpathentry kind="lib" path="src/poi-3.17.jar"/>
-	<classpathentry kind="lib" path="src/poi-ooxml-schemas-3.17.jar"/>
+	<classpathentry kind="lib" path="src/poi-3.9.jar"/>
+	<classpathentry kind="lib" path="src/poi-ooxml-3.9.jar"/>
+	<classpathentry kind="lib" path="src/poi-ooxml-schemas-3.9.jar"/>
+	<classpathentry kind="lib" path="src/dom4j-1.6.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
