@@ -26,7 +26,7 @@ public void read_struct(Map<String, String> message) throws IOException {
 		int count = 0;
 		List<String[]> data = new ArrayList<String[]>();//讲最后的数据拼接为data
 		//填写头部的信息
-		String[] head = {"表名","表描述","字段名","字段类型","长度","字段描述","外部表名称","外部字段名称"};
+		String[] head = {"表名","表描述","字段名","字段类型","长度","字段描述","外部表名称","外部字段名称","","","连接条件:","数据库表名","字段名","=","数据库表名","字段名"};
 		data.add(head);
 		
 		// 1.根据用户信息修改properties文件

@@ -118,7 +118,7 @@ public class JPanel_step2 extends JPanel {
 		c.gridy = 3;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JTextField dataBaseName = new JTextField("orcl");
+		JTextField dataBaseName = new JTextField("test");
 
 		this.add(dataBaseName, c);
 		
@@ -136,7 +136,7 @@ public class JPanel_step2 extends JPanel {
 		c.gridy = 4;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JTextField userName = new JTextField("scott");
+		JTextField userName = new JTextField("root");
 
 		this.add(userName, c);
 
@@ -154,7 +154,7 @@ public class JPanel_step2 extends JPanel {
 		c.gridy = 5;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JTextField passWord = new JTextField("tiger");
+		JTextField passWord = new JTextField("123");
 
 		this.add(passWord, c);
 

@@ -68,6 +68,8 @@ public class ReadExcelTool {
 		List<String[]> list = new ArrayList<String[]>();
 		if (workbook != null) {
 			for (int sheetNum = 0; sheetNum < workbook.getNumberOfSheets(); sheetNum++) {
+				//只读第一张sheet
+				if(sheetNum>0) break;
 				// 获得当前sheet工作表
 				Sheet sheet = workbook.getSheetAt(sheetNum);
 				if (sheet == null) {
@@ -214,9 +216,11 @@ public class ReadExcelTool {
 		cellstytle.setBorderLeft(CellStyle.BORDER_THIN);// 左边框
 		cellstytle.setBorderTop(CellStyle.BORDER_THIN);// 上边框
 		cellstytle.setBorderRight(CellStyle.BORDER_THIN);// 右边框
-		
+	
+	
 		/* 2.将表名和字段名进行二级下拉框添加 */
 		Cascade(workbook, sheet, tablenames, columns,cellstytle);
+
 		
 		/* 3.输出文件 */
 		OutputStream outputStream = null;
@@ -255,6 +259,12 @@ public class ReadExcelTool {
 		sheet.setColumnWidth(5, 256 * 20);// 字段描述
 		sheet.setColumnWidth(6, 256 * 20);// 外部表名
 		sheet.setColumnWidth(7, 256 * 15);// 字段名
+		sheet.setColumnWidth(10, 256*20); //连接条件
+		sheet.setColumnWidth(11, 256*40); //本地数据库表名
+		sheet.setColumnWidth(12, 256*40); //本地数据库字段名
+		sheet.setColumnWidth(14, 256*40); //外部数据库表名
+		sheet.setColumnWidth(15, 256*40); //外部数据库字段名
+
 
 		// 设置字体及居中
 		XSSFFont font = workbook.createFont();
@@ -372,8 +382,8 @@ public class ReadExcelTool {
 			for (int j = 0; j < row_message.length; j++) {
 				XSSFCell cell = row.createCell(j);
 				cell.setCellStyle(cellstytle);
-				row.createCell(6).setCellStyle(cellstytle);
-				row.createCell(7).setCellStyle(cellstytle);
+//				row.createCell(6).setCellStyle(cellstytle);
+//				row.createCell(7).setCellStyle(cellstytle);
 				String cell_message = row_message[j];
 				cell.setCellValue(cell_message);
 			}
@@ -382,18 +392,18 @@ public class ReadExcelTool {
 		/* 2.将第一列和第二列中的数据进行单元格合并 */
 		int rowCount = sheet.getLastRowNum() + 1;
 		System.out.println("rowCount:" + rowCount);
-		int start = 1;
+//		int start = 1;
 		for (int i = 2; i < rowCount; i++) {
 			// 第i行第0列的单元格
 			XSSFCell now_cell = sheet.getRow(i).getCell(0);
 			String now_string = now_cell.getStringCellValue().trim();
 			// 不为空时合并上方单元格(包括第一列和第二列)，为空格时继续向下
-			if (!(now_string.length() <= 0 || " ".equals(now_string))) {
-				CellRangeAddress region = new CellRangeAddress(start, i - 1, 0, 0);
-				CellRangeAddress region2 = new CellRangeAddress(start, i - 1, 1, 1);
+			if (now_string.length() <= 0 || " ".equals(now_string)) {
+				CellRangeAddress region = new CellRangeAddress(i-1, i , 0, 0);
+				CellRangeAddress region2 = new CellRangeAddress(i-1, i , 1, 1);
 				sheet.addMergedRegion(region);
 				sheet.addMergedRegion(region2);
-				start = i;
+//				start = i;
 			}
 		}
 	}
@@ -439,6 +449,7 @@ public class ReadExcelTool {
 		XSSFDataValidationHelper dvHelper = new XSSFDataValidationHelper((XSSFSheet) sheetPro);
 		// 表名规则
 		DataValidationConstraint provConstraint = dvHelper.createExplicitListConstraint(list2String(tablenames));
+		//添加一级下拉框
 		// 四个参数分别是：起始行、终止行、起始列、终止列，表名在第六列，
 		CellRangeAddressList provRangeAddressList = new CellRangeAddressList(1, sheetPro.getLastRowNum(), 6, 6);
 		DataValidation provinceDataValidation = dvHelper.createValidation(provConstraint, provRangeAddressList);
@@ -447,14 +458,38 @@ public class ReadExcelTool {
 		provinceDataValidation.setShowErrorBox(true);
 		provinceDataValidation.setSuppressDropDownArrow(true);
 		sheetPro.addValidationData(provinceDataValidation);
-
+		
+		//添加连接条件左侧一级下拉框
+		CellRangeAddressList provRangeAddressList2 = new CellRangeAddressList(1, sheetPro.getLastRowNum(), 11, 11);
+		DataValidation provinceDataValidation2 = dvHelper.createValidation(provConstraint, provRangeAddressList2);
+		// 验证
+		provinceDataValidation2.createErrorBox("error", "请选择正确的表名");
+		provinceDataValidation2.setShowErrorBox(true);
+		provinceDataValidation2.setSuppressDropDownArrow(true);
+		sheetPro.addValidationData(provinceDataValidation2);
+		
+		//天机连接条件右侧一级下拉框
+		CellRangeAddressList provRangeAddressList3 = new CellRangeAddressList(1, sheetPro.getLastRowNum(), 14, 14);
+		DataValidation provinceDataValidation3 = dvHelper.createValidation(provConstraint, provRangeAddressList3);
+		// 验证
+		provinceDataValidation3.createErrorBox("error", "请选择正确的表名");
+		provinceDataValidation3.setShowErrorBox(true);
+		provinceDataValidation3.setSuppressDropDownArrow(true);
+		sheetPro.addValidationData(provinceDataValidation3);
+		
 		// 对所有行行设置有效性，10是为了保证所有行都能有，防止意外情况出现
 		for (int i = 1; i < sheetPro.getLastRowNum() + 10; i++) {
 			setDataValidation("G", sheetPro, i, 8);
+			setDataValidation("L", sheetPro, i, 13);
+			setDataValidation("L", sheetPro, i, 16);
 		}
-
+		
+		
 		return;
 	}
+	
+	
+	
 
 	/**
 	 * 设置有效性

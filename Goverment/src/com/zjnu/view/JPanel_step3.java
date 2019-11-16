@@ -2,36 +2,50 @@ package com.zjnu.view;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.jb2011.lnf.beautyeye.ch3_button.BEButtonUI;
 
+import com.zjnu.service.read_ex_struct_service;
+import com.zjnu.service.transfer_data_service;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
 public class JPanel_step3 extends JPanel {
 
 	GridBagLayout gridBagLayout = new GridBagLayout();
 	GridBagConstraints c;
-
+	String filePath = "";
+	JPanel local_panel;
+	JPanel inter_panel;
 	/**
 	 * Create the panel.
 	 */
 	public JPanel_step3() {
-		/* ·ÖÎª2ĞĞ2ÁĞ£¬ÏÂ·½ÓÃÓÚ·ÅÖÃ°´Å¥ */
+		/* ï¿½ï¿½Îª2ï¿½ï¿½2ï¿½Ğ£ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½Ã°ï¿½Å¥ */
 		gridBagLayout.columnWeights = new double[] { 1, 1 };
 		gridBagLayout.rowWeights = new double[] { 1, 3, 1 };
 		this.setLayout(gridBagLayout);
 
-		/*±êÌâÏÔÊ¾*/
+		/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾*/
 		JPanel title_panel = new JPanel();
 		title_panel.setLayout(new BorderLayout());
 		c = new GridBagConstraints();
@@ -39,14 +53,14 @@ public class JPanel_step3 extends JPanel {
 		c.gridy = 0;
 		c.gridwidth  = 2;
 		c.fill = GridBagConstraints.BOTH;
-		JLabel label = new JLabel("µ¼ÈëÊı¾İ", JLabel.CENTER);
-		label.setFont(new Font("Î¢ÈíÑÅºÚ", 1, 16));
+		JLabel label = new JLabel("å¯¼å…¥æ•°æ®", JLabel.CENTER);
+		label.setFont(new Font("å¾®è½¯é›…é»‘", 1, 16));
 		title_panel.add(label);
 		this.add(title_panel,c);
 		
 		
-		/* ±¾µØÊı¾İ¿âĞÅÏ¢ÌîĞ´ */
-		JPanel local_panel = new JPanel();
+		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ğ´ */
+		local_panel = new JPanel();
 //		local_panel.setBackground(Color.green);
 		local_panel.setBorder(BorderFactory.createLineBorder(Color.green));
 		c = new GridBagConstraints();
@@ -55,8 +69,8 @@ public class JPanel_step3 extends JPanel {
 		c.fill = GridBagConstraints.BOTH;
 		this.add(local_panel, c);
 
-		/* Íâ²¿Êı¾İ¿âĞÅÏ¢ÌîĞ´ */
-		JPanel inter_panel = new JPanel();
+		/* ï¿½â²¿ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ğ´ */
+		inter_panel = new JPanel();
 //		inter_panel.setBackground(Color.red);
 		inter_panel.setBorder(BorderFactory.createLineBorder(Color.green));
 		c = new GridBagConstraints();
@@ -65,7 +79,7 @@ public class JPanel_step3 extends JPanel {
 		c.fill = GridBagConstraints.BOTH;
 		this.add(inter_panel, c);
 
-		/* °´Å¥ÏÔÊ¾ÇøÓò */
+		/* ï¿½ï¿½Å¥ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ */
 		JPanel button_panel = new JPanel();
 //		button_panel.setBackground(Color.BLUE);
 		button_panel.setBorder(BorderFactory.createLineBorder(Color.green));
@@ -76,13 +90,13 @@ public class JPanel_step3 extends JPanel {
 		c.fill = GridBagConstraints.BOTH;
 		this.add(button_panel, c);
 
-		/* Îª±¾µØÊı¾İ¿âĞÅÏ¢Ìí¼Ó×é¼ş */
-		paint(local_panel, "±¾µØÊı¾İ¿âĞÅÏ¢");
+		/* Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+		paint(local_panel, "æœ¬åœ°æ•°æ®åº“");
 
-		/* ÎªÍâ²¿Êı¾İ¿âÌí¼Ó×é¼ş */
-		paint(inter_panel, "Íâ²¿Êı¾İ¿âĞÅÏ¢");
+		/* Îªï¿½â²¿ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+		paint(inter_panel, "å¤–éƒ¨æ•°æ®åº“");
 
-		/* »æÖÆbutton_panel */
+		/* ï¿½ï¿½ï¿½ï¿½button_panel */
 		paint_button(button_panel);
 	}
 
@@ -94,13 +108,13 @@ public class JPanel_step3 extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 0.5, 1, 1, 0.5 };
 		panel.setLayout(gridBagLayout);
 
-		// Ñ¡ÔñEXCELÎÄ¼ş
+		// Ñ¡ï¿½ï¿½EXCELï¿½Ä¼ï¿½
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(50, 60, 50, 0);
-		JButton button = new JButton("Ñ¡ÔñÎÄ¼ş");
+		JButton button = new JButton("é€‰æ‹©excelæ–‡ä»¶");
 		button.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.green));
 		panel.add(button, c);
 
@@ -109,29 +123,83 @@ public class JPanel_step3 extends JPanel {
 		c.gridy = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(50, 40, 50, 50);
-		JTextField fileName = new JTextField("ÎÄ¼şÃû³Æ");
+		JTextField fileName = new JTextField("æ–‡ä»¶å");
 		fileName.setEditable(false);
 		panel.add(fileName, c);
 
-		/* µ¼³ö°´Å¥ */
+		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥ */
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 2;
 		c.gridwidth = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(40, 40, 50, 50);
-		JButton button2 = new JButton("µ¼ÈëÊı¾İ");
+		JButton button2 = new JButton("æ ¹æ®ç»“æ„ä¼ è¾“æ•°æ®");
 		button2.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.lightBlue));
 		panel.add(button2, c);
-		// Ìî³ä
+		// ï¿½ï¿½ï¿½
 		c = new GridBagConstraints();
 		c.gridx = 3;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.BOTH;
 		JLabel pass = new JLabel();
 		panel.add(pass, c);
+		
+		/*é€‰æ‹©æ–‡ä»¶æŒ‰é’®æ·»åŠ äº‹ä»¶*/
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("è¡¨æ ¼æ–‡ä»¶(xls,xlsx)", "xls","xlsx");
+				fileChooser.setFileFilter(filter);
+				fileChooser.showDialog(null, "é€‰æ‹©æˆ–åˆ›å»ºexcelå¯¼å‡ºæ–‡ä»¶");
+				File file = fileChooser.getSelectedFile();
+				filePath = file.getAbsolutePath();
+			}
+		});
+		
+		/*ä¸ºå¯¼å‡ºæŒ‰é’®æ·»åŠ äº‹ä»¶*/
+		button2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Map<String,String> message_local = new TreeMap<String, String>();
+				Map<String,String> message_ex = new TreeMap<String, String>();
+				/*è·å–æœ¬åœ°æ•°æ®åº“*/
+				getmessage(local_panel, message_local);
+				getmessage(inter_panel, message_ex);
+				
+				transfer_data_service service = new transfer_data_service();
+				service.transfer_data(message_local, message_ex, filePath);
+			
+			}
+		});
 	}
+	
 
+	/*ç”¨æ¥è·å–panelä¸­çš„æ•°æ®*/
+	public void getmessage(JPanel panel, Map<String,String> map) {
+		String[] names = {"databasetype","ipaddress","databasename","username","password"};
+		Component[] components = panel.getComponents();
+		//0ï¼Œ1ï¼Œ2,3è·³è¿‡
+		for(int i=4;i<components.length;i+=2) {
+			
+			//ä¸ºæ•°æ®åº“ç±»å‹æ—¶ç‰¹åˆ¤
+			if(i==4) {
+				JComboBox<String> type = (JComboBox<String>)components[i];
+				map.put(names[i-4], (String)type.getSelectedItem());
+			}
+			//å…¶ä»–ç›´æ¥æ‰”è¿›å»
+			else{
+				JTextField textField = (JTextField)components[i];
+				map.put(names[(i-4)/2], textField.getText());
+			}
+			if(i==components.length-1)break;
+		}
+	}
+	
 	public void paint(JPanel panel, String name) {
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -141,7 +209,7 @@ public class JPanel_step3 extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 1, 1, 1, 1, 1, 1, 1, 1 };
 		panel.setLayout(gridBagLayout);
 
-		// Ìî³äµÚÒ»ĞĞ
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
@@ -156,7 +224,7 @@ public class JPanel_step3 extends JPanel {
 		c.insets = new Insets(10, 0, 0, 0);
 		c.fill = GridBagConstraints.BOTH;
 		JLabel pass1 = new JLabel(name, JLabel.CENTER);
-		pass1.setFont(new Font("Î¢ÈíÑÅºÚ", 1, 16));
+		pass1.setFont(new Font("å¾®è½¯é›…é»‘", 1, 16));
 		panel.add(pass1, c);
 
 		c = new GridBagConstraints();
@@ -166,14 +234,14 @@ public class JPanel_step3 extends JPanel {
 		JLabel pass3 = new JLabel();
 		panel.add(pass3, c);
 
-		/* ÄÚÈİ */
-		// Ñ¡ÔñÊı¾İ¿âÀàĞÍ
+		/* ï¿½ï¿½ï¿½ï¿½ */
+		// Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JLabel label1 = new JLabel("Ñ¡ÔñÊı¾İ¿âÀàĞÍ:", JLabel.RIGHT);
+		JLabel label1 = new JLabel("æ•°æ®åº“ç±»å‹:", JLabel.RIGHT);
 		panel.add(label1, c);
 
 		c = new GridBagConstraints();
@@ -185,13 +253,13 @@ public class JPanel_step3 extends JPanel {
 		JComboBox<String> tyep_comBox = new JComboBox<String>(types);
 		panel.add(tyep_comBox, c);
 
-		// Ñ¡ÔñÊı¾İ¿âipµØÖ·
+		// Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ipï¿½ï¿½Ö·
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JLabel label2 = new JLabel("Êı¾İ¿âipµØÖ·:", JLabel.RIGHT);
+		JLabel label2 = new JLabel("ipåœ°å€:", JLabel.RIGHT);
 		panel.add(label2, c);
 
 		c = new GridBagConstraints();
@@ -199,16 +267,16 @@ public class JPanel_step3 extends JPanel {
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JTextField ipAddress = new JTextField();
+		JTextField ipAddress = new JTextField("localhost");
 
 		panel.add(ipAddress, c);
 
-		// ÊäÈëÊı¾İ¿âÃû³Æ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 3;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JLabel label3 = new JLabel("Êı¾İ¿âÃû³Æ:", JLabel.RIGHT);
+		JLabel label3 = new JLabel("æ•°æ®åº“åç§°:", JLabel.RIGHT);
 		c.insets = new Insets(30, 30, 20, 20);
 		panel.add(label3, c);
 
@@ -217,16 +285,16 @@ public class JPanel_step3 extends JPanel {
 		c.gridy = 3;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JTextField dataBaseName = new JTextField();
+		JTextField dataBaseName = new JTextField("test");
 
 		panel.add(dataBaseName, c);
 
-		// ÕËºÅ
+		// ï¿½Ëºï¿½
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 4;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JLabel label4 = new JLabel("ÕËºÅ:", JLabel.RIGHT);
+		JLabel label4 = new JLabel("ç”¨æˆ·å:", JLabel.RIGHT);
 		c.insets = new Insets(30, 30, 20, 20);
 		panel.add(label4, c);
 
@@ -235,16 +303,16 @@ public class JPanel_step3 extends JPanel {
 		c.gridy = 4;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JTextField userName = new JTextField();
+		JTextField userName = new JTextField("root");
 
 		panel.add(userName, c);
 
-		// ÃÜÂë
+		// ï¿½ï¿½ï¿½ï¿½
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 5;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		JLabel label5 = new JLabel("ÃÜÂë:", JLabel.RIGHT);
+		JLabel label5 = new JLabel("å¯†ç :", JLabel.RIGHT);
 		c.insets = new Insets(30, 30, 20, 20);
 		panel.add(label5, c);
 
@@ -253,7 +321,7 @@ public class JPanel_step3 extends JPanel {
 		c.gridy = 5;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(30, 30, 20, 20);
-		JTextField passWord = new JTextField();
+		JTextField passWord = new JTextField("123");
 
 		panel.add(passWord, c);
 
