@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.zjnu.mapper.transfer_dataMapper">
+	
+	
+	<select id="query_ex_data" resultType="map">
+		select ${query_condition} from ${table_name}
+		<if test="join_condition!=null">
+			WHERE ${join_condition}
+		</if>
+	</select>
+	
+	<insert id="insert_fields">
+		insert into ${table_name} 
+		<if test="insert_fields!=null">
+			(${insert_fields})
+		</if>
+		<if test="value!=null">
+			values 
+			<foreach collection="value" separator="," open="(" close=")" item="item">
+				#{item}
+			</foreach>
+		</if>
+	</insert>
+</mapper>
