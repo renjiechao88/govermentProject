@@ -387,12 +387,13 @@ public class ReadExcelTool {
 		for (int i = 0; i < message.size(); i++) {
 			XSSFRow row = sheet.createRow(i);
 			String[] row_message = message.get(i);
-			for (int j = 0; j < row_message.length; j++) {
+			for (int j = 0; j < 16; j++) {
 				XSSFCell cell = row.createCell(j);
 				cell.setCellStyle(cellstytle);
-//				row.createCell(6).setCellStyle(cellstytle);
-//				row.createCell(7).setCellStyle(cellstytle);
-				String cell_message = row_message[j];
+
+				String cell_message = null;
+				if(j>row_message.length-1) cell_message = "";
+				else cell_message = row_message[j];
 				cell.setCellValue(cell_message);
 			}
 		}
