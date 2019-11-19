@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -82,7 +84,9 @@ public class read_ex_struct_service {
 ////			System.out.println(list.get(i)[j]);
 //		}
 		/*需要添加选择导出的excel文件*/
-		ReadExcelTool.writeExcel_ex(message.get("filepath"), tableNames, all_columns);
+		int result = ReadExcelTool.writeExcel_ex(message.get("filepath"), tableNames, all_columns);
+		if(result==1)
+			JOptionPane.showMessageDialog(null, "读取外部数据库结构成功");
 		
 	}
 

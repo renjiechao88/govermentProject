@@ -167,8 +167,13 @@ public class transfer_data_service {
 			}
 
 		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "导数据失败");
 			e.printStackTrace();
+			return;
 		}
+		
+		JOptionPane.showMessageDialog(null, "导出数据成功");
+		
 	}
 
 	/**

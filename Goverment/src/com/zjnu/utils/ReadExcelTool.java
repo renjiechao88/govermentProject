@@ -186,7 +186,7 @@ public class ReadExcelTool {
 	}
 	
 	/*直接在源文件上添加右边的信息*/
-	public static void writeExcel_ex(String filepath, List<String> tablenames, List<List<Column>> columns) throws IOException {
+	public static int writeExcel_ex(String filepath, List<String> tablenames, List<List<Column>> columns) throws IOException {
 		InputStream inputStream = new FileInputStream(new File(filepath));
 		XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 		XSSFSheet sheet = workbook.getSheetAt(0);
@@ -230,9 +230,11 @@ public class ReadExcelTool {
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "文件输出失败");
 			e.printStackTrace();
+			return 0;
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "文件输出失败");
 			e.printStackTrace();
+			return 0;
 		} finally {
 			if (outputStream != null) {
 				try {
@@ -240,13 +242,15 @@ public class ReadExcelTool {
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "文件输出流关闭失败");
 					e.printStackTrace();
+					return 0;
 				}
 			}
 		}
+		return 1;
 	}
 	
 	/* 按照格式输出左边的文件 */
-	public static void writeExcel(List<String[]> message, String path) {
+	public static int writeExcel(List<String[]> message, String path) {
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("数据库结构对应表");
 		/* 0.设置单元格样式 */
@@ -293,9 +297,11 @@ public class ReadExcelTool {
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "文件输出失败");
 			e.printStackTrace();
+			return 0;
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "文件输出失败");
 			e.printStackTrace();
+			return 0;
 		} finally {
 			if (outputStream != null) {
 				try {
@@ -303,9 +309,11 @@ public class ReadExcelTool {
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "文件输出流关闭失败");
 					e.printStackTrace();
+					return 0;
 				}
 			}
 		}
+		return 1;
 	}
 
 	

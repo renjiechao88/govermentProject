@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -97,8 +99,10 @@ public void read_struct(Map<String, String> message) throws IOException {
 			
 			session.commit();
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "读取本地数据库结构失败,请确认数据库信息填写正确");
 			e.printStackTrace();
 			session.rollback();
+			return;
 		}finally {
 			session.close();
 		}
@@ -113,7 +117,9 @@ public void read_struct(Map<String, String> message) throws IOException {
 	
 		
 		//3.将内容写入excel
-		ReadExcelTool.writeExcel(data, message.get("filepath"));
+		int result = ReadExcelTool.writeExcel(data, message.get("filepath"));
+		if(result==1)
+			JOptionPane.showMessageDialog(null, "导出本地数据库结构成功");
 		
 	}
 }
