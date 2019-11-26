@@ -32,7 +32,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
+import com.zjnu.service.read_ex_struct_service;
 import com.zjnu.service.read_local_struct_service;
+import com.zjnu.service.transfer_data_service;
+import com.zjnu.utils.PropertiesUtils;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -412,8 +415,8 @@ public class JFrameMain extends JFrame {
 					}
 					/*1.3通过校验之后将数据打包好*/
 					message.put("filepath", filePath);
-					System.out.println(message);
 					//1.4调用接口
+					
 				}
 				
 				/*2.从数据库创建excel*/
@@ -450,6 +453,7 @@ public class JFrameMain extends JFrame {
 	}
 	
 	public void addContent2() {
+		filePath = "";
 		//上侧图片
 		JLabel label_picture = new JLabel("");
 		label_picture.setIcon(new ImageIcon(JFrameMain.class.getResource("/com/zjnu/image/Step2.png")));
@@ -482,10 +486,7 @@ public class JFrameMain extends JFrame {
 		label_Password.setBounds(282, 63, 85, 16);
 		panel_content.add(label_Password);
 		
-		JLabel label_SelectFile = new JLabel("选择所需字段文件：");
-		label_SelectFile.setFont(new Font("PingFang HK", Font.PLAIN, 14));
-		label_SelectFile.setBounds(25, 101, 130, 16);
-		panel_content.add(label_SelectFile);
+
 		
 		JComboBox comboBox_DatabaseType = new JComboBox();
 		comboBox_DatabaseType.setFont(new Font("PingFang HK", Font.PLAIN, 14));
@@ -517,12 +518,25 @@ public class JFrameMain extends JFrame {
 		passwordField_Password.setBounds(334, 60, 180, 25);
 		panel_content.add(passwordField_Password);
 		
+		/*默认信息*/
+		textField_IpAddress.setText("localhost");
+		textField_Account.setText("root");
+		textField_DatabaseName.setText("test2");
+		passwordField_Password.setText("123");
+		
+		
+		JLabel label_SelectFile = new JLabel("选择所需字段文件：");
+		label_SelectFile.setFont(new Font("PingFang HK", Font.PLAIN, 14));
+		label_SelectFile.setBounds(25, 101, 130, 16);
+		panel_content.add(label_SelectFile);
+		
 		JTextField textField_SelectFile = new JTextField();
 		textField_SelectFile.setEditable(false);
 		textField_SelectFile.setFont(new Font("PingFang HK", Font.PLAIN, 14));
 		textField_SelectFile.setColumns(10);
 		textField_SelectFile.setBounds(161, 98, 479, 25);
 		panel_content.add(textField_SelectFile);
+		
 		
 		JProgressBar progressBar = new JProgressBar();
 		progressBar.setFont(new Font("PingFang HK", Font.PLAIN, 14));
@@ -540,11 +554,62 @@ public class JFrameMain extends JFrame {
 		button_Browse.setBounds(652, 96, 109, 29);
 		panel_content.add(button_Browse);
 		
-		JButton button_WriteToFile = new JButton("到本机数据库");
+		/*添加数据库结构文件游览*/
+		button_Browse.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("表格文件(xls,xlsx)", "xls","xlsx");
+				fileChooser.setFileFilter(filter);
+				fileChooser.showDialog(null, "选择或创建excel文件");
+				File file = fileChooser.getSelectedFile();
+				if(file==null) return;
+				/*创建时要以xls或者xlsx结尾*/
+				filePath = file.getAbsolutePath();
+				if(!filePath.endsWith(".xls") && !filePath.endsWith(".xlsx")) {
+					filePath = filePath+".xlsx";
+				}
+				file = new File(filePath);
+				/*同时将文件名字显示*/
+				textField_SelectFile.setText(file.getName());
+				textField.setText("");
+			}
+		});
+		
+		JButton button_WriteToFile = new JButton("导到本机数据库");
 		button_WriteToFile.setEnabled(false);
 		button_WriteToFile.setFont(new Font("PingFang HK", Font.PLAIN, 14));
 		button_WriteToFile.setBounds(652, 220, 109, 29);
 		panel_content.add(button_WriteToFile);
+		
+		/*导数据到本地数据库*/
+		button_WriteToFile.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Map<String,String> message_ex = new HashMap<String, String>();
+				/*1.1校验外部数据库信息*/
+				boolean flag = vertify(message_ex);
+				if(flag==false) {
+					JOptionPane.showMessageDialog(null, "请填写完整的外部数据库信息");
+					return;
+				}
+				if(filePath.trim().length()<=0) {
+					JOptionPane.showMessageDialog(null, "导信息到本地数据库需要excel文件，请选择正确的文件");
+					return;
+				}
+				/*1.2得到本地数据库的信息*/
+				Map<String,String> message_local = PropertiesUtils.list("local_message.properites");
+				
+				/*1.3调用api*/
+				transfer_data_service service = new transfer_data_service();
+			
+				service.transfer_data(message_local, message_ex, filePath);
+			
+			}
+		});
 		
 		JLabel label = new JLabel("选择对应关系文件：");
 		label.setFont(new Font("PingFang HK", Font.PLAIN, 14));
@@ -563,14 +628,71 @@ public class JFrameMain extends JFrame {
 		button.setBounds(652, 134, 109, 29);
 		panel_content.add(button);
 		
+		/*添加导数据库文件游览*/
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("表格文件(xls,xlsx)", "xls","xlsx");
+				fileChooser.setFileFilter(filter);
+				fileChooser.showDialog(null, "选择或创建excel文件");
+				File file = fileChooser.getSelectedFile();
+				if(file==null) return;
+				/*创建时要以xls或者xlsx结尾*/
+				filePath = file.getAbsolutePath();
+				if(!filePath.endsWith(".xls") && !filePath.endsWith(".xlsx")) {
+					filePath = filePath+".xlsx";
+				}
+				file = new File(filePath);
+				/*同时将文件名字显示*/
+				textField.setText(file.getName());
+				textField_SelectFile.setText("");
+			}
+		});
+		
 		JButton button_WriteToExcel = new JButton("写入到文件");
 		button_WriteToExcel.setFont(new Font("PingFang HK", Font.PLAIN, 14));
 		button_WriteToExcel.setBounds(531, 220, 109, 29);
 		panel_content.add(button_WriteToExcel);
 		
+		
+		/*为写入到文件添加事件*/
+		button_WriteToExcel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Map<String,String> message = new HashMap<String, String>();
+				/*1.1校验数据库信息*/
+				boolean flag = vertify(message);
+				if(flag==false) {
+					JOptionPane.showMessageDialog(null, "请填写完整的外部数据库信息");
+					return;
+				}
+				/*1.2通过校验之后将数据打包好*/
+				if(filePath.trim().length()<=0) {
+					JOptionPane.showMessageDialog(null, "导出外部数据库信息到excel文件需要选择excel，请选择正确的文件");
+					return;
+				}
+				message.put("filepath", filePath);
+				/*1.3调用api*/
+				read_ex_struct_service service = new read_ex_struct_service();
+				try {
+					service.read_struct(message);
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null, "导出外部数据库信息失败");
+					e1.printStackTrace();
+					return;
+				}
+				
+			}
+		});
+		
 	}
 	
 	public void addContent3() {
+		filePath = "";
 		//上侧图片
 		JLabel label_picture = new JLabel("");
 		label_picture.setIcon(new ImageIcon(JFrameMain.class.getResource("/com/zjnu/image/Step3.png")));
@@ -648,6 +770,31 @@ public class JFrameMain extends JFrame {
 		button_WriteToFile.setFont(new Font("PingFang HK", Font.PLAIN, 14));
 		button_WriteToFile.setBounds(652, 220, 109, 29);
 		panel_content.add(button_WriteToFile);
+		
+		/*导数据库*/
+		button_WriteToFile.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Map<String,String> message_ex = new HashMap<String, String>();
+				/*1.1校验外部数据库信息*/
+				boolean flag = vertify(message_ex);
+				if(flag==false) {
+					JOptionPane.showMessageDialog(null, "请填写完整的外部数据库信息");
+					return;
+				}
+				//不需要excel文件
+//				if(filePath.trim().length()<=0) {
+//					JOptionPane.showMessageDialog(null, "导信息到数据库需要excel文件，请选择正确的文件");
+//					return;
+//				}
+				/*1.2得到本地数据库的信息*/
+				Map<String,String> message_local = PropertiesUtils.list("local_message.properites");
+				
+				/*1.3调用api*/
+		
+			}
+		});
 	}
 	
 	/*校验panelcontent中的数据*/
@@ -659,13 +806,13 @@ public class JFrameMain extends JFrame {
 				JComboBox<String> databasetype = (JComboBox<String>)components[i];
 				String datatypeString = (String)databasetype.getSelectedItem();
 				
-				if(datatypeString.trim().length()<=0) return false;
+				if( datatypeString==null || datatypeString.trim().length()<=0 ) return false;
 				else message.put(name[i-5], (String)databasetype.getSelectedItem());
 			}
 			else {
 				JTextField textField = (JTextField)components[i];
 				String text = textField.getText();
-				if(text.trim().length()<=0) return false;
+				if(text==null || text.trim().length()<=0) return false;
 				else message.put(name[i-5], text);
 			}
 	

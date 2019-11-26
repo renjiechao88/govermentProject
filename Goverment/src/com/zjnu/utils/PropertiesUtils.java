@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -54,13 +55,16 @@ public class PropertiesUtils {
 	}
 	
 
-	public static void list() {
+	public static Map<String,String> list(String path) {
+		Map<String,String> message = new HashMap<String, String>();
+		init(path);
 		Enumeration en = p.propertyNames(); //得到配置文件的名字
 		while(en.hasMoreElements()) {
 			String strKey = (String) en.nextElement();
 			String strValue = p.getProperty(strKey);
-			System.out.println(strKey + "=" + strValue);
+			message.put(strKey, strValue);
 		}
+		return message;
 	}
 
 	
@@ -112,9 +116,21 @@ public class PropertiesUtils {
 		update("username", username,path);
 		update("password",password,path);
 
-		//提交更新
-//		commit(path);
-//		System.out.println("ok");
+
+	}
+	
+	public static void write_file(Map<String,String> message, String path) {
+		String username = message.get("username");
+		String password = message.get("password");
+		String databasename = message.get("databasename");
+		String databasetype = message.get("databasetype").toLowerCase();
+		String ipaddress = message.get("ipaddress");
+		
+		update("username", username, path);
+		update("password", password, path);
+		update("databasename", databasename, path);
+		update("databasetype", databasetype, path);
+		update("ipaddress", ipaddress, path);
 		
 	}
 	
