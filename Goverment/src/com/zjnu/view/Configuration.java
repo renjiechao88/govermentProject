@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -53,7 +54,9 @@ public class Configuration extends JFrame {
 	 * Create the frame.
 	 */
 	public Configuration() {
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Configuration.class.getResource("/com/zjnu/image/tools.png")));
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("配置本机数据库参数");
 		/*得到数据库信息*/
 		Map<String,String> message = PropertiesUtils.list("local_message.properties");
 		String databasetype = message.get("databasetype")==null?"":message.get("databasetype");
@@ -62,7 +65,7 @@ public class Configuration extends JFrame {
 		String username = message.get("username")==null?"":message.get("username");
 		String password = message.get("password")==null?"":message.get("password");
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(590,300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -131,26 +134,28 @@ public class Configuration extends JFrame {
 		
 		JLabel label_Title = new JLabel("配置本机数据库连接参数");
 		label_Title.setFont(new Font("PingFang HK", Font.PLAIN, 16));
-		label_Title.setBounds(23, 24, 200, 16);
+		label_Title.setBounds(23, 24, 200, 20);
 		contentPane.add(label_Title);
+		
+		int dist=10;
 		
 		JButton button_cancel = new JButton("关闭");
 		button_cancel.setFont(new Font("PingFang HK", Font.PLAIN, 14));
 		button_cancel.setEnabled(true);
-		button_cancel.setBounds(474, 232, 109, 29);
+		button_cancel.setBounds(474-dist-dist, 232-dist, 109, 29);
 		contentPane.add(button_cancel);
-//		button_cancel.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				dispose();
-//			}
-//		});
+		button_cancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				dispose();
+			}
+		});
 		
 		JButton button_OK = new JButton("确定");
 		button_OK.setFont(new Font("PingFang HK", Font.PLAIN, 14));
 		button_OK.setEnabled(true);
-		button_OK.setBounds(353, 232, 109, 29);
+		button_OK.setBounds(353-dist-dist, 232-dist, 109, 29);
 		contentPane.add(button_OK);
 		
 		/*为确定添加事件*/

@@ -332,11 +332,11 @@ public class JFrameMain extends JFrame {
 		progressBar.setBounds(25, 187, 736, 20);
 		panel_content.add(progressBar);
 		
-		JLabel label_Status = new JLabel("当前状态：数据库连接成功，正在导出......");
-		label_Status.setForeground(Color.DARK_GRAY);
-		label_Status.setFont(new Font("PingFang HK", Font.PLAIN, 14));
-		label_Status.setBounds(25, 225, 318, 16);
-		panel_content.add(label_Status);
+//		JLabel label_Status = new JLabel("当前状态：数据库连接成功，正在导出......");
+//		label_Status.setForeground(Color.DARK_GRAY);
+//		label_Status.setFont(new Font("PingFang HK", Font.PLAIN, 14));
+//		label_Status.setBounds(25, 225, 318, 16);
+//		panel_content.add(label_Status);
 		
 		JButton button_Browse = new JButton("浏览");
 		button_Browse.setEnabled(false);
@@ -554,11 +554,11 @@ public class JFrameMain extends JFrame {
 		progressBar.setBounds(25, 187, 736, 20);
 		panel_content.add(progressBar);
 		
-		JLabel label_Status = new JLabel("当前状态：数据库连接成功，正在写入文件......");
-		label_Status.setForeground(Color.DARK_GRAY);
-		label_Status.setFont(new Font("PingFang HK", Font.PLAIN, 14));
-		label_Status.setBounds(25, 225, 318, 16);
-		panel_content.add(label_Status);
+//		JLabel label_Status = new JLabel("当前状态：数据库连接成功，正在写入文件......");
+//		label_Status.setForeground(Color.DARK_GRAY);
+//		label_Status.setFont(new Font("PingFang HK", Font.PLAIN, 14));
+//		label_Status.setBounds(25, 225, 318, 16);
+//		panel_content.add(label_Status);
 		
 		JButton button_Browse = new JButton("浏览");
 		button_Browse.setFont(new Font("PingFang HK", Font.PLAIN, 14));
@@ -589,9 +589,11 @@ public class JFrameMain extends JFrame {
 			}
 		});
 		
+		int move=10;
+		
 		JButton button_WriteToFile = new JButton("导到本机数据库");
 		button_WriteToFile.setFont(new Font("PingFang HK", Font.PLAIN, 14));
-		button_WriteToFile.setBounds(652, 220, 109, 29);
+		button_WriteToFile.setBounds(652-move, 220, 109+move, 29);
 		panel_content.add(button_WriteToFile);
 		
 		/*导数据到本地数据库*/
@@ -664,7 +666,7 @@ public class JFrameMain extends JFrame {
 		
 		JButton button_WriteToExcel = new JButton("写入到文件");
 		button_WriteToExcel.setFont(new Font("PingFang HK", Font.PLAIN, 14));
-		button_WriteToExcel.setBounds(531, 220, 109, 29);
+		button_WriteToExcel.setBounds(531-move, 220, 109, 29);
 		panel_content.add(button_WriteToExcel);
 		
 		
@@ -770,11 +772,11 @@ public class JFrameMain extends JFrame {
 		progressBar.setBounds(25, 187, 736, 20);
 		panel_content.add(progressBar);
 		
-		JLabel label_Status = new JLabel("当前状态：数据库连接成功，正在导入数据库......");
-		label_Status.setForeground(Color.DARK_GRAY);
-		label_Status.setFont(new Font("PingFang HK", Font.PLAIN, 14));
-		label_Status.setBounds(25, 225, 318, 16);
-		panel_content.add(label_Status);
+//		JLabel label_Status = new JLabel("当前状态：数据库连接成功，正在导入数据库......");
+//		label_Status.setForeground(Color.DARK_GRAY);
+//		label_Status.setFont(new Font("PingFang HK", Font.PLAIN, 14));
+//		label_Status.setBounds(25, 225, 318, 16);
+//		panel_content.add(label_Status);
 		
 		JButton button_WriteToFile = new JButton("导入数据库");
 		button_WriteToFile.setFont(new Font("PingFang HK", Font.PLAIN, 14));
