@@ -40,5 +40,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="com/zjnu/mapper/read_ex_datastructMapper.xml"/>
 		<mapper resource="com/zjnu/mapper/read_local_datastructMapper.xml"/>
 		<mapper resource="com/zjnu/mapper/transfer_dataMapper.xml"/>
+		<package name="com.mybatis.dao"/>
 	</mappers>
 </configuration>

@@ -32,10 +32,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
+import com.mybatis.dao.IUserDao;
 import com.zjnu.service.read_ex_struct_service;
 import com.zjnu.service.read_local_struct_service;
 import com.zjnu.service.transfer_data_service;
+import com.zjnu.utils.Mybatistest;
 import com.zjnu.utils.PropertiesUtils;
+import com.zjnu.utils.exceltosqlTool;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -60,6 +63,7 @@ public class JFrameMain extends JFrame {
 	private JPanel panel_picture = new JPanel();
 	private JTextField textField;
 	private String filePath = "";
+	private File file;
 
 	public static void main(String[] args) {
 		try{
@@ -379,8 +383,8 @@ public class JFrameMain extends JFrame {
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("表格文件(xls,xlsx)", "xls","xlsx");
 				fileChooser.setFileFilter(filter);
-				fileChooser.showDialog(null, "选择或创建excel文件");
-				File file = fileChooser.getSelectedFile();
+				fileChooser.showDialog(null, "选择excel文件");
+				file= fileChooser.getSelectedFile();
 				if(file==null) return;
 				/*创建时要以xls或者xlsx结尾*/
 				filePath = file.getAbsolutePath();
@@ -414,8 +418,15 @@ public class JFrameMain extends JFrame {
 						return;
 					}
 					/*1.3通过校验之后将数据打包好*/
-					message.put("filepath", filePath);
+//					message.put("filepath", filePath);
 					//1.4调用接口
+					try {
+						exceltosqlTool.exceltosql(message, file);
+						JOptionPane.showMessageDialog(null, "导入成功");
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, "导入失败"+e1.getMessage());
+					}
 					
 				}
 				
@@ -579,7 +590,6 @@ public class JFrameMain extends JFrame {
 		});
 		
 		JButton button_WriteToFile = new JButton("导到本机数据库");
-		button_WriteToFile.setEnabled(true);
 		button_WriteToFile.setFont(new Font("PingFang HK", Font.PLAIN, 14));
 		button_WriteToFile.setBounds(652, 220, 109, 29);
 		panel_content.add(button_WriteToFile);
@@ -789,10 +799,16 @@ public class JFrameMain extends JFrame {
 //					return;
 //				}
 				/*1.2得到本地数据库的信息*/
-				Map<String,String> message_local = PropertiesUtils.list("local_message.properites");
-				
+//				System.out.println("外部数据库"+message_ex);
+				Map<String,String> message_local = PropertiesUtils.list("local_message.properties");
+//				System.out.println("内部数据库："+message_local);
 				/*1.3调用api*/
-		
+				try {
+					Mybatistest.sqltosql(message_local, message_ex);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 	}

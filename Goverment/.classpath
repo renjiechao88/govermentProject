@@ -15,5 +15,8 @@
 	<classpathentry kind="lib" path="src/poi-ooxml-schemas-3.9.jar"/>
 	<classpathentry kind="lib" path="src/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="src/poi-3.9.jar"/>
+	<classpathentry kind="lib" path="src/spring-core-5.0.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="src/slf4j-log4j12-1.7.25.jar"/>
+	<classpathentry kind="lib" path="src/slf4j-api-1.7.25.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
