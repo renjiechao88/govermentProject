@@ -579,7 +579,7 @@ public class JFrameMain extends JFrame {
 		});
 		
 		JButton button_WriteToFile = new JButton("导到本机数据库");
-		button_WriteToFile.setEnabled(false);
+		button_WriteToFile.setEnabled(true);
 		button_WriteToFile.setFont(new Font("PingFang HK", Font.PLAIN, 14));
 		button_WriteToFile.setBounds(652, 220, 109, 29);
 		panel_content.add(button_WriteToFile);
@@ -601,7 +601,7 @@ public class JFrameMain extends JFrame {
 					return;
 				}
 				/*1.2得到本地数据库的信息*/
-				Map<String,String> message_local = PropertiesUtils.list("local_message.properites");
+				Map<String,String> message_local = PropertiesUtils.list("local_message.properties");
 				
 				/*1.3调用api*/
 				transfer_data_service service = new transfer_data_service();

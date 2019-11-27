@@ -53,7 +53,7 @@ public class Configuration extends JFrame {
 	 * Create the frame.
 	 */
 	public Configuration() {
-		
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		/*得到数据库信息*/
 		Map<String,String> message = PropertiesUtils.list("local_message.properties");
 		String databasetype = message.get("databasetype")==null?"":message.get("databasetype");
